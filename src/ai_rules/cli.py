@@ -70,10 +70,10 @@ def pull(
             write_universal_rules(cfg.canonical_store, [d.rule_group], append=True)
             promoted_to = f"universal-rules/{d.rule_group.normalized_name}.md"
             state.record_rule(d.source_path, d.content_hash, "universal", promoted_to=promoted_to)
-            console.print(f"  → Promoted to {promoted_to}")
+            console.print(f"  -> Promoted to {promoted_to}")
         else:
             state.record_rule(d.source_path, d.content_hash, "repo-specific")
-            console.print("  → Kept as repo-specific")
+            console.print("  -> Kept as repo-specific")
     from datetime import datetime, timezone
     state.last_pull = datetime.now(timezone.utc).isoformat()
     save_state(state_path, state)
@@ -103,7 +103,7 @@ def push(
         console.print(f"\nPushing to [bold]{t}[/bold]...")
         written = push_rules(cfg, t, state)
         for path in written:
-            console.print(f"  → {path}")
+            console.print(f"  -> {path}")
     save_state(state_path, state)
     console.print("\nDone.")
 
@@ -136,7 +136,7 @@ def promote(
     for group in groups:
         promoted_to = f"universal-rules/{group.normalized_name}.md"
         state.record_rule(rel_path, content_hash, "universal", promoted_to=promoted_to)
-        console.print(f"Promoted '{group.name}' → {promoted_to}")
+        console.print(f"Promoted '{group.name}' -> {promoted_to}")
     save_state(state_path, state)
     console.print("\nRemember to run 'ai-rules push' to distribute.")
 
