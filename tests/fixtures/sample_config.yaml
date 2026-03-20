@@ -1,0 +1,16 @@
+workspace: /tmp/test-workspace
+canonical_store: ./universal-rules
+
+tools:
+  claude-code:
+    rule_patterns: ["CLAUDE.md"]
+  cursor:
+    rule_patterns: [".cursor/rules/*.mdc"]
+  copilot:
+    rule_patterns: [".github/copilot-instructions.md"]
+
+repos:
+  - path: repo-a
+    tools: [claude-code, cursor]
+  - path: repo-b
+    tools: [claude-code, copilot]
