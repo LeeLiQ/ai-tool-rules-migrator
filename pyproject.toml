@@ -1,0 +1,27 @@
+[project]
+name = "ai-rules"
+version = "0.1.0"
+description = "Sync AI coding tool rules across Claude Code, Cursor, and VS Code Copilot"
+readme = "README.md"
+authors = [
+    { name = "Qian Li", email = "qli@wine.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "typer>=0.15",
+    "ruamel.yaml>=0.18",
+    "rich>=13",
+]
+
+[project.scripts]
+ai-rules = "ai_rules.cli:app"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
