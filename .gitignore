@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+.venv/
+.ai-rules-state.json
+universal-rules/inventory.md
