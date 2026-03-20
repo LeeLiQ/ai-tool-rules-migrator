@@ -1,0 +1,19 @@
+# ai-rules configuration
+# Adjust workspace path and repos to match your setup.
+
+workspace: C:\Users\qli\Workspace
+canonical_store: ./universal-rules
+
+tools:
+  claude-code:
+    rule_patterns: ["CLAUDE.md"]
+  cursor:
+    rule_patterns: [".cursor/rules/*.mdc"]
+  copilot:
+    rule_patterns: [".github/copilot-instructions.md"]
+
+repos:
+  - path: database-www
+    tools: [claude-code, cursor, copilot]
+  - path: productcatalog-api
+    tools: [claude-code, cursor, copilot]
