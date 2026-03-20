@@ -1,0 +1,10 @@
+---
+description: Backend coding conventions
+globs: "**/*.cs"
+alwaysApply: false
+---
+
+# Backend Rules
+
+- Use dependency injection.
+- Follow repository pattern.

@@ -1,0 +1,9 @@
+---
+description: Database naming conventions
+alwaysApply: true
+---
+
+# Database Conventions
+
+- Use PascalCase for table names.
+- Prefix stored procedures with usp_.
