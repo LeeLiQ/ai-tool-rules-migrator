@@ -26,10 +26,10 @@ def test_save_and_load_roundtrip(tmp_path):
 def test_record_push(tmp_path):
     path = tmp_path / ".ai-rules-state.json"
     state = State(version=1)
-    state.record_push("copilot", "database-www", "sha256:xyz")
+    state.record_push("copilot", "my-repo", "sha256:xyz")
     save_state(path, state)
     loaded = load_state(path)
-    assert loaded.pushes["copilot"]["database-www"]["content_hash"] == "sha256:xyz"
+    assert loaded.pushes["copilot"]["my-repo"]["content_hash"] == "sha256:xyz"
 
 
 def test_is_changed_new_rule():

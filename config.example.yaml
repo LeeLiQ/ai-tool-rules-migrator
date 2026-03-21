@@ -1,7 +1,8 @@
 # ai-rules configuration
-# Adjust workspace path and repos to match your setup.
+# Copy this file to config.yaml and adjust to match your setup.
+#   cp config.example.yaml config.yaml
 
-workspace: C:\Users\qli\Workspace
+workspace: /path/to/your/workspace
 canonical_store: ./universal-rules
 
 tools:
@@ -13,7 +14,7 @@ tools:
     rule_patterns: [".github/copilot-instructions.md"]
 
 repos:
-  - path: database-www
+  - path: my-backend-repo
     tools: [claude-code, cursor, copilot]
-  - path: productcatalog-api
+  - path: my-database-repo
     tools: [claude-code, cursor, copilot]

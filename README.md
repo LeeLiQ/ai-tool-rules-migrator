@@ -23,7 +23,11 @@ uv sync
 
 ## Quick Start
 
-1. Edit `config.yaml` — set your workspace path and repos
+1. Copy and edit the config:
+   ```bash
+   cp config.example.yaml config.yaml
+   ```
+   Edit `config.yaml` — set your workspace path and repos
 2. Pull existing rules:
    ```bash
    uv run ai-rules pull
