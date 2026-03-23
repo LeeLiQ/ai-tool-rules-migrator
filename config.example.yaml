@@ -8,8 +8,10 @@ canonical_store: ./universal-rules
 tools:
   claude-code:
     rule_patterns: ["CLAUDE.md"]
+    # global_path: "C:\\Users\\you\\.claude"  # uncomment if you have global Claude Code rules
   cursor:
     rule_patterns: [".cursor/rules/*.mdc"]
+    global_path: "~/.cursor/rules"  # global Cursor rules (applies to all projects)
   copilot:
     rule_patterns: [".github/copilot-instructions.md"]
 

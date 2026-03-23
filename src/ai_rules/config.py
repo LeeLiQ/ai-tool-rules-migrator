@@ -7,6 +7,7 @@ from ruamel.yaml import YAML
 class ToolConfig:
     name: str
     rule_patterns: list[str]
+    global_path: Path | None = None
 
 @dataclass
 class RepoConfig:
@@ -29,7 +30,9 @@ def load_config(path: Path) -> Config:
     config_dir = path.parent
     tools = {}
     for name, tool_data in data.get("tools", {}).items():
-        tools[name] = ToolConfig(name=name, rule_patterns=tool_data.get("rule_patterns", []))
+        raw_global = tool_data.get("global_path")
+        global_path = Path(raw_global) if raw_global else None
+        tools[name] = ToolConfig(name=name, rule_patterns=tool_data.get("rule_patterns", []), global_path=global_path)
     repos = []
     for repo_data in data.get("repos", []):
         repo_tools = repo_data.get("tools", [])

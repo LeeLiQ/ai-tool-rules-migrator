@@ -44,13 +44,27 @@ def _scan_path(path: Path, pattern: str, tool_name: str, parser: BaseParser, wor
 
 
 def discover_rules(config: Config) -> list[DiscoveredRule]:
-    """Scan all configured repos and tools for rules. Also scans workspace-level CLAUDE.md."""
+    """Scan all configured repos and tools for rules. Also scans workspace-level CLAUDE.md and global tool paths."""
     discovered = []
     # Scan workspace-level CLAUDE.md
     workspace_claude = config.workspace / "CLAUDE.md"
     if workspace_claude.exists():
         parser = PARSERS["claude-code"]
         discovered.extend(_scan_path(config.workspace, "CLAUDE.md", "claude-code", parser, config.workspace))
+    # Scan global tool paths (e.g., ~/.cursor/rules/)
+    for tool_name, tool_config in config.tools.items():
+        if not tool_config.global_path:
+            continue
+        global_dir = tool_config.global_path
+        if not global_dir.exists():
+            continue
+        parser = PARSERS.get(tool_name)
+        if not parser:
+            continue
+        for pattern in tool_config.rule_patterns:
+            # Use just the filename pattern, not the full relative path
+            file_pattern = pattern.split("/")[-1] if "/" in pattern else pattern
+            discovered.extend(_scan_path(global_dir, file_pattern, tool_name, parser, config.workspace))
     # Scan each repo
     for repo_config in config.repos:
         repo_path = config.workspace / repo_config.path

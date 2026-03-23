@@ -29,6 +29,27 @@ def test_load_config_canonical_store_resolved():
     assert config.canonical_store.is_absolute()
     assert config.canonical_store.name == "universal-rules"
 
+def test_load_config_global_path_none_by_default():
+    config = load_config(FIXTURES / "sample_config.yaml")
+    assert config.tools["cursor"].global_path is None
+
+
+def test_load_config_global_path():
+    import tempfile
+    from ruamel.yaml import YAML
+    yaml = YAML()
+    cfg = {
+        "workspace": "/tmp",
+        "tools": {"cursor": {"rule_patterns": [".cursor/rules/*.mdc"], "global_path": "/home/user/.cursor/rules"}},
+        "repos": [],
+    }
+    with tempfile.NamedTemporaryFile(suffix=".yaml", mode="w", delete=False) as f:
+        yaml.dump(cfg, f)
+        f.flush()
+        config = load_config(Path(f.name))
+    assert config.tools["cursor"].global_path == Path("/home/user/.cursor/rules")
+
+
 def test_load_config_invalid_tool_reference():
     import tempfile
     from ruamel.yaml import YAML

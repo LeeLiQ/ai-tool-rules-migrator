@@ -63,6 +63,37 @@ def test_discover_rules_includes_workspace_claude_md(tmp_path):
     assert len(workspace_rules) == 1
     assert "Global Rule" in [r.name for r in workspace_rules[0].rule_group.rules]
 
+def test_discover_rules_finds_global_cursor_rules(tmp_path):
+    workspace = tmp_path / "workspace"
+    workspace.mkdir()
+    global_cursor = tmp_path / "global_cursor_rules"
+    global_cursor.mkdir()
+    (global_cursor / "git-worktree.mdc").write_text(
+        "---\ndescription: Git worktree conventions\nalwaysApply: true\n---\n\n# Git Worktrees\n\nUse worktrees for feature branches.\n"
+    )
+    config = Config(
+        workspace=workspace,
+        canonical_store=workspace / "universal-rules",
+        tools={"cursor": ToolConfig(name="cursor", rule_patterns=[".cursor/rules/*.mdc"], global_path=global_cursor)},
+        repos=[],
+    )
+    discovered = discover_rules(config)
+    assert len(discovered) == 1
+    assert discovered[0].source_tool == "cursor"
+    assert "Git Worktrees" in [r.name for r in discovered[0].rule_group.rules]
+
+
+def test_discover_rules_skips_missing_global_path(tmp_path):
+    config = Config(
+        workspace=tmp_path,
+        canonical_store=tmp_path / "universal-rules",
+        tools={"cursor": ToolConfig(name="cursor", rule_patterns=[".cursor/rules/*.mdc"], global_path=tmp_path / "nonexistent")},
+        repos=[],
+    )
+    discovered = discover_rules(config)
+    assert discovered == []
+
+
 def test_push_rules_writes_copilot_file(tmp_path):
     workspace = tmp_path / "workspace"
     repo = workspace / "repo-a"
