@@ -28,6 +28,6 @@ def inject_marked_block(existing: str | None, generated: str) -> str:
         return marked_block
     pattern = re.compile(re.escape(MARKER_START) + r".*?" + re.escape(MARKER_END) + r"\n?", re.DOTALL)
     if pattern.search(existing):
-        return pattern.sub(marked_block, existing)
+        return pattern.sub(lambda _: marked_block, existing)
     else:
         return existing.rstrip("\n") + "\n\n" + marked_block
